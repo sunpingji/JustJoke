@@ -79,16 +79,19 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
-                        String temp = apiResponse.getContent();
-                        if (TextUtils.isEmpty(temp)) {
-                            temp = getString(R.string.sorry_for_no_joke);
-                        } else {
-                            temp = refactorWebToLocal(temp);
+                        if (isAdded()){
+                            Gson gson = new Gson();
+                            ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
+                            String temp = apiResponse.getContent();
+                            if (TextUtils.isEmpty(temp)) {
+                                temp = getString(R.string.sorry_for_no_joke);
+                            } else {
+                                temp = refactorWebToLocal(temp);
+                            }
+
+                            tvContent.setText(temp);
                         }
 
-                        tvContent.setText(temp);
                     }
                 }, new Response.ErrorListener() {
             @Override

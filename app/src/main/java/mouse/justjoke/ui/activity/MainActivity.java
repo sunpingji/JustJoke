@@ -53,8 +53,12 @@ public class MainActivity extends SuperActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = PlaceholderFragment.newInstance(position + 1);
+        if (position == 0) {
+            fragment = JokeFragment.newInstance();
+        }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, JokeFragment.newInstance())
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
