@@ -2,6 +2,7 @@ package mouse.justjoke.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import mouse.justjoke.R;
 import mouse.justjoke.app.AppApplication;
+import mouse.justjoke.business.result.ApiResponse;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
 import mouse.justjoke.utils.log.Slog;
 
@@ -28,8 +33,6 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
     private static final String TAG = JokeFragment.class.getSimpleName();
 
     private StringRequest stringRequest;
-
-    private String jokeResponse;
 
     private TextView tvContent;
 
@@ -76,8 +79,16 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        jokeResponse = response;
-                        tvContent.setText(jokeResponse);
+                        Gson gson = new Gson();
+                        ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
+                        String temp = apiResponse.getContent();
+                        if (TextUtils.isEmpty(temp)) {
+                            temp = getString(R.string.sorry_for_no_joke);
+                        } else {
+                            temp = refactorWebToLocal(temp);
+                        }
+
+                        tvContent.setText(temp);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -85,9 +96,18 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
                 Slog.e("TAG", error.getMessage());
             }
         });
+
     }
 
-    private void doRequest(){
+    private String refactorWebToLocal(String temp) {
+        String tmp = temp;
+        String reg = "\\{br\\}";
+        tmp = temp.replaceAll(reg, "\n");
+        tmp = tmp.replace(getString(R.string.joke_tips), "");
+        return tmp;
+    }
+
+    private void doRequest() {
         AppApplication.getVolleyQueue().add(stringRequest);
     }
 
@@ -100,7 +120,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_refresh:
                 doRequest();
                 break;

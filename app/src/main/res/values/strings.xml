@@ -14,4 +14,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="sorry_for_no_joke">"对不起，暂时找不到笑话，请刷新一下试试"</string>
+    <string name="joke_tips">"提示：按分类看笑话请发送“笑话分类”"</string>
 </resources>

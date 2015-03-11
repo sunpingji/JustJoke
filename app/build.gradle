@@ -44,4 +44,6 @@ dependencies {
     compile 'cn.leancloud.android:avoscloud-feedback:v2.6.+@aar'
 
     compile 'com.mcxiaoke.volley:library:1.0.+@aar'
+
+    compile 'com.google.code.gson:gson:2.3'
 }
