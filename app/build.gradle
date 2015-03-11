@@ -42,4 +42,6 @@ dependencies {
 
     //avoscloud-feedback 为 LeanCloud 用户反馈包
     compile 'cn.leancloud.android:avoscloud-feedback:v2.6.+@aar'
+
+    compile 'com.mcxiaoke.volley:library:1.0.+@aar'
 }
