@@ -63,31 +63,18 @@ public class HotFragment extends SuperFragment {
     }
 
     private void init() {
-//        request = new JsonObjectRequest(Constant.API_9GAG + "0", null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//                Gson gson = new Gson();
-//                Feed.FeedRequestData response = gson.fromJson(jsonObject.toString(), Feed.FeedRequestData.class);
-//
-//                Slog.d(TAG,"response "+jsonObject.toString());
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                Slog.d(TAG, "error");
-//            }
-//        });
-        request = new SuperRequest(Constant.API_9GAG + "0", Feed.FeedRequestData.class, new Response.Listener() {
-            @Override
-            public void onResponse(Object o) {
-                Slog.d(TAG, "response " + o.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Slog.d(TAG, "onErrorResponse " + volleyError.toString());
-            }
-        });
+        request = new SuperRequest(Constant.API_9GAG + "0", Feed.FeedRequestData.class, this, this);
+    }
 
+    @Override
+    public void onResponse(Object o) {
+        super.onResponse(o);
+        Slog.d(TAG, "onResponse" + o.toString());
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError volleyError) {
+        super.onErrorResponse(volleyError);
+        Slog.d(TAG, "onErrorResponse" + volleyError.toString());
     }
 }

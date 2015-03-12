@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import mouse.justjoke.R;
 import mouse.justjoke.app.AppApplication;
 import mouse.justjoke.app.Constant;
+import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.result.ApiResponse;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
 import mouse.justjoke.utils.log.Slog;
@@ -33,7 +34,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
 
     private static final String TAG = JokeFragment.class.getSimpleName();
 
-    private StringRequest stringRequest;
+    private SuperRequest request;
 
     private TextView tvContent;
 
@@ -54,7 +55,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
         findViews();
         init();
         initListener();
-        sendRequest(stringRequest);
+        sendRequest(request);
     }
 
     private void initListener() {
@@ -67,37 +68,15 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
     }
 
     private void init() {
-        String request = "http://api.ajaxsns.com/api.php?key=free&appid=0&msg=";
+        String url = "http://api.ajaxsns.com/api.php?key=free&appid=0&msg=";
         try {
             String key = URLEncoder.encode("笑话", "utf-8");
-            request = request + key;
+            url = url + key;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        stringRequest = new StringRequest(Request.Method.GET, request,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (isAdded()) {
-                            Gson gson = new Gson();
-                            ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
-                            String temp = apiResponse.getContent();
-                            if (TextUtils.isEmpty(temp)) {
-                                temp = getString(R.string.sorry_for_no_joke);
-                            } else {
-                                temp = refactorWebToLocal(temp);
-                            }
+        request = new SuperRequest(url, ApiResponse.class, this, this);
 
-                            tvContent.setText(temp);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Slog.e("TAG", error.getMessage());
-            }
-        });
 
     }
 
@@ -117,10 +96,31 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
     }
 
     @Override
+    public void onResponse(Object o) {
+        super.onResponse(o);
+        if (isAdded()) {
+
+            String temp = ((ApiResponse) o).getContent();
+            if (TextUtils.isEmpty(temp)) {
+                temp = getString(R.string.sorry_for_no_joke);
+            } else {
+                temp = refactorWebToLocal(temp);
+            }
+
+            tvContent.setText(temp);
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError volleyError) {
+        super.onErrorResponse(volleyError);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_refresh:
-                sendRequest(stringRequest);
+                sendRequest(request);
                 break;
 
         }
