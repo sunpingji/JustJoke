@@ -46,8 +46,8 @@ public class AppApplication extends Application {
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .resetViewBeforeLoading(false)  // default
-                .cacheInMemory(false) // default
-                .cacheOnDisk(false) // default
+                .cacheInMemory(true) // default
+                .cacheOnDisk(true) // default
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
