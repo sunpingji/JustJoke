@@ -12,9 +12,12 @@ import android.widget.Button;
 
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mouse.justjoke.R;
 import mouse.justjoke.app.Constant;
-import mouse.justjoke.business.adapter.MyAdapter;
+import mouse.justjoke.business.adapter.HotAdapter;
 import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.result.Feed;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
@@ -32,8 +35,10 @@ public class HotFragment extends SuperFragment {
     private SuperRequest request;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private HotAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private List<Feed> list = new ArrayList<>();
 
 
     public static HotFragment newInstance() {
@@ -73,8 +78,8 @@ public class HotFragment extends SuperFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] strings = new String[]{"A","B","C","D","E","F","G","H","I","J"};
-        mAdapter = new MyAdapter(strings);
+
+        mAdapter = new HotAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -86,6 +91,11 @@ public class HotFragment extends SuperFragment {
     @Override
     public void onResponse(Object o) {
         super.onResponse(o);
+        if (o != null) {
+            Feed.FeedRequestData data = (Feed.FeedRequestData) o;
+            list = data.data;
+            mAdapter.refreshData(list);
+        }
         Slog.d(TAG, "onResponse" + o.toString());
     }
 
