@@ -7,20 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import mouse.justjoke.R;
 import mouse.justjoke.app.Constant;
 import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.result.Feed;
-import mouse.justjoke.business.result.HotResponse;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
 import mouse.justjoke.utils.log.Slog;
 
