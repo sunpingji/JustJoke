@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.android.volley.VolleyError;
 
@@ -33,7 +32,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
 
     private SuperRequest request;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView recyclerView;
     private HotAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -63,21 +62,21 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
     }
 
     private void initView() {
-        mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
 
         mAdapter = new HotAdapter(list);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
@@ -85,6 +84,19 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
         swipeLayout.setColorScheme(android.R.color.white,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+                int totalItemCount = mLayoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount-1 && dy > 0) {
+                   nextPage();
+                }
+            }
+        });
     }
 
     private void nextPage() {
@@ -97,7 +109,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
         super.onResponse(o);
         if (o != null) {
             Feed.FeedRequestData data = (Feed.FeedRequestData) o;
-            list = data.data;
+            list.addAll(data.data);
             count = data.getPage();
             mAdapter.refreshData(list);
         }
