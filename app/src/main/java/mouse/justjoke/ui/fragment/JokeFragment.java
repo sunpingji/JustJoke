@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 
 import mouse.justjoke.R;
 import mouse.justjoke.app.AppApplication;
+import mouse.justjoke.app.Constant;
 import mouse.justjoke.business.result.ApiResponse;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
 import mouse.justjoke.utils.log.Slog;
@@ -40,8 +41,6 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
 
     public static JokeFragment newInstance() {
         JokeFragment fragment = new JokeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -55,7 +54,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
         findViews();
         init();
         initListener();
-        doRequest();
+        sendRequest(stringRequest);
     }
 
     private void initListener() {
@@ -79,7 +78,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (isAdded()){
+                        if (isAdded()) {
                             Gson gson = new Gson();
                             ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
                             String temp = apiResponse.getContent();
@@ -110,10 +109,6 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
         return tmp;
     }
 
-    private void doRequest() {
-        AppApplication.getVolleyQueue().add(stringRequest);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,7 +120,7 @@ public class JokeFragment extends SuperFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_refresh:
-                doRequest();
+                sendRequest(stringRequest);
                 break;
 
         }

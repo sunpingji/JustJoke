@@ -12,11 +12,7 @@ import com.avos.avoscloud.AVOSCloud;
  */
 public class AppApplication extends Application {
 
-    private static AppApplication app;
-
-    private RequestQueue requestQueue;
-
-    private Context context;
+    public static Context context;
 
     @Override
     public void onCreate() {
@@ -25,17 +21,9 @@ public class AppApplication extends Application {
     }
 
     private void init() {
-        app = this;
         context = this;
         AVOSCloud.initialize(this, Constant.Lean_APP_ID, Constant.Lean_APP_KEY);
-        requestQueue = Volley.newRequestQueue(this);
     }
 
-    public static RequestQueue getVolleyQueue() {
-        return app.requestQueue;
-    }
 
-    public static Context getContext() {
-        return app.context;
-    }
 }

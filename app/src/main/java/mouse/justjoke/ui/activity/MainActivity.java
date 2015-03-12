@@ -18,6 +18,7 @@ import com.avos.avoscloud.AVObject;
 import mouse.justjoke.R;
 import mouse.justjoke.ui.NavigationDrawerFragment;
 import mouse.justjoke.ui.activity.common.SuperActivity;
+import mouse.justjoke.ui.fragment.HotFragment;
 import mouse.justjoke.ui.fragment.JokeFragment;
 
 
@@ -56,6 +57,8 @@ public class MainActivity extends SuperActivity
         Fragment fragment = PlaceholderFragment.newInstance(position + 1);
         if (position == 0) {
             fragment = JokeFragment.newInstance();
+        } else if (position == 1) {
+            fragment = HotFragment.newInstance();
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)

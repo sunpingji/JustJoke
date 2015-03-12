@@ -9,4 +9,8 @@ public class Constant {
 
     public static final String Lean_APP_KEY = "nx322xna3a8sktjhwhihgw2phn5ou9oi7pie5yowrwmgksvs";
 
+    public static final String API_9GAG = "http://infinigag-us.aws.af.cm/hot/";
+
+
+
 }
