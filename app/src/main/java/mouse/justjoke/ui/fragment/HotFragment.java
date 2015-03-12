@@ -2,6 +2,7 @@ package mouse.justjoke.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,17 +27,20 @@ import mouse.justjoke.utils.log.Slog;
 /**
  * Created by mouse on 15/3/12.
  */
-public class HotFragment extends SuperFragment {
+public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = HotFragment.class.getSimpleName();
-
-    private Button btnSend;
 
     private SuperRequest request;
 
     private RecyclerView mRecyclerView;
     private HotAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private SwipeRefreshLayout swipeLayout;
+
+
+    private String count = "0";
 
     private List<Feed> list = new ArrayList<>();
 
@@ -55,18 +59,10 @@ public class HotFragment extends SuperFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        init();
+        nextPage();
     }
 
     private void initView() {
-        btnSend = (Button) getView().findViewById(R.id.btn_send);
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendRequest(request);
-            }
-        });
-
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -82,10 +78,18 @@ public class HotFragment extends SuperFragment {
         mAdapter = new HotAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        //加载颜色是循环播放的，只要没有完成刷新就会一直循环，color1>color2>color3>color4
+        swipeLayout.setColorScheme(android.R.color.white,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
     }
 
-    private void init() {
-        request = new SuperRequest(Constant.API_9GAG + "0", Feed.FeedRequestData.class, this, this);
+    private void nextPage() {
+        request = new SuperRequest(Constant.API_9GAG + count, Feed.FeedRequestData.class, this, this);
+        sendRequest(request);
     }
 
     @Override
@@ -94,14 +98,23 @@ public class HotFragment extends SuperFragment {
         if (o != null) {
             Feed.FeedRequestData data = (Feed.FeedRequestData) o;
             list = data.data;
+            count = data.getPage();
             mAdapter.refreshData(list);
         }
+        swipeLayout.setRefreshing(false);
         Slog.d(TAG, "onResponse" + o.toString());
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         super.onErrorResponse(volleyError);
+        swipeLayout.setRefreshing(false);
         Slog.d(TAG, "onErrorResponse" + volleyError.toString());
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeLayout.setRefreshing(true);
+        nextPage();
     }
 }
