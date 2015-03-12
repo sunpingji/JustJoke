@@ -2,6 +2,9 @@ package mouse.justjoke.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import com.android.volley.VolleyError;
 
 import mouse.justjoke.R;
 import mouse.justjoke.app.Constant;
+import mouse.justjoke.business.adapter.MyAdapter;
 import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.result.Feed;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
@@ -26,6 +30,11 @@ public class HotFragment extends SuperFragment {
     private Button btnSend;
 
     private SuperRequest request;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     public static HotFragment newInstance() {
         HotFragment fragment = new HotFragment();
@@ -52,6 +61,22 @@ public class HotFragment extends SuperFragment {
                 sendRequest(request);
             }
         });
+
+        mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        String[] strings = new String[]{"A","B","C","D","E","F","G","H","I","J"};
+        mAdapter = new MyAdapter(strings);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void init() {
