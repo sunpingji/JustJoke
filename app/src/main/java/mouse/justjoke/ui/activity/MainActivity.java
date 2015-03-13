@@ -56,10 +56,11 @@ public class MainActivity extends SuperActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = PlaceholderFragment.newInstance(position + 1);
         if (position == 0) {
-            fragment = JokeFragment.newInstance();
-        } else if (position == 1) {
             fragment = HotFragment.newInstance();
         }
+//        else if (position == 1) {
+//            fragment = HotFragment.newInstance();
+//        }
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();

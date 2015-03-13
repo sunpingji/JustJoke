@@ -1,4 +1,4 @@
-package mouse.justjoke.business.result;
+package mouse.justjoke.business.bean;
 
 
 import com.google.gson.Gson;
@@ -11,7 +11,6 @@ import java.util.HashMap;
  * Created by storm on 14-3-25.
  */
 public class Feed  {
-    private static final HashMap<String, Feed> CACHE = new HashMap<String, Feed>();
 
     public String id;
     public String caption;
@@ -25,20 +24,8 @@ public class Feed  {
         public String large;
     }
 
-    private class Vote {
-        public int count;
-    }
-
-    private static void addToCache(Feed feed) {
-        CACHE.put(feed.id, feed);
-    }
-
-    private static Feed getFromCache(String id) {
-        return CACHE.get(id);
-    }
-
-    public static Feed fromJson(String json) {
-        return new Gson().fromJson(json, Feed.class);
+    public class Vote {
+        public String count;
     }
 
 

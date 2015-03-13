@@ -13,7 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import mouse.justjoke.R;
-import mouse.justjoke.business.result.Feed;
+import mouse.justjoke.business.bean.Feed;
 
 /**
  * Created by mouse on 15/3/13.

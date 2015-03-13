@@ -19,7 +19,7 @@ import mouse.justjoke.R;
 import mouse.justjoke.app.Constant;
 import mouse.justjoke.business.adapter.UltraAdapter;
 import mouse.justjoke.business.request.SuperRequest;
-import mouse.justjoke.business.result.Feed;
+import mouse.justjoke.business.bean.Feed;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
 import mouse.justjoke.utils.log.Slog;
 
