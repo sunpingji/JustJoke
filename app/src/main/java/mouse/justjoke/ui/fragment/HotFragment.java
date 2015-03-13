@@ -3,7 +3,6 @@ package mouse.justjoke.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.VolleyError;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mouse.justjoke.R;
 import mouse.justjoke.app.Constant;
-import mouse.justjoke.business.adapter.HotAdapter;
+import mouse.justjoke.business.adapter.UltraAdapter;
 import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.result.Feed;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
@@ -26,17 +26,15 @@ import mouse.justjoke.utils.log.Slog;
 /**
  * Created by mouse on 15/3/12.
  */
-public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HotFragment extends SuperFragment {
 
     private static final String TAG = HotFragment.class.getSimpleName();
 
     private SuperRequest request;
 
-    private RecyclerView recyclerView;
-    private HotAdapter mAdapter;
+    private UltimateRecyclerView recyclerView;
+    private UltraAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private SwipeRefreshLayout swipeLayout;
 
     private Boolean isRefresh = false;
 
@@ -64,7 +62,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
     }
 
     private void initView() {
-        recyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
+        recyclerView = (UltimateRecyclerView) getView().findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -76,16 +74,19 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
 
         // specify an adapter (see also next example)
 
-        mAdapter = new HotAdapter(list);
+        mAdapter = new UltraAdapter(list);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.setRefreshing(true);
+            }
+        });
 
-        swipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(this);
-        //加载颜色是循环播放的，只要没有完成刷新就会一直循环，color1>color2>color3>color4
-        swipeLayout.setColorScheme(android.R.color.white,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        recyclerView.enableLoadmore();
+        mAdapter.setCustomLoadMoreView(LayoutInflater.from(getActivity())
+                .inflate(R.layout.custom_bottom_progressbar, null));
+
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -94,8 +95,8 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
                 int totalItemCount = mLayoutManager.getItemCount();
                 //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
                 // dy>0 表示向下滑动
-                if (lastVisibleItem >= totalItemCount-4 && dy > 0 && !isRefresh) {
-                   nextPage();
+                if (lastVisibleItem >= totalItemCount - 4 && dy > 0 && !isRefresh) {
+                    nextPage();
                 }
             }
         });
@@ -116,22 +117,18 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
             count = data.getPage();
             mAdapter.refreshData(list);
         }
-        swipeLayout.setRefreshing(false);
         isRefresh = false;
+        recyclerView.setRefreshing(false);
         Slog.d(TAG, "onResponse" + o.toString());
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         super.onErrorResponse(volleyError);
-        swipeLayout.setRefreshing(false);
         isRefresh = false;
+        recyclerView.setRefreshing(false);
         Slog.d(TAG, "onErrorResponse" + volleyError.toString());
     }
 
-    @Override
-    public void onRefresh() {
-        swipeLayout.setRefreshing(true);
-        nextPage();
-    }
+
 }
