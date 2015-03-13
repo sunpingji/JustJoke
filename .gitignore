@@ -6,3 +6,7 @@
 /build
 /JustJoke.iml
 /app/app.iml
+.idea/vcs.xml
+
+app/app.iml
+.idea

@@ -38,6 +38,8 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
 
     private SwipeRefreshLayout swipeLayout;
 
+    private Boolean isRefresh = false;
+
 
     private String count = "0";
 
@@ -92,7 +94,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
                 int totalItemCount = mLayoutManager.getItemCount();
                 //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
                 // dy>0 表示向下滑动
-                if (lastVisibleItem >= totalItemCount-1 && dy > 0) {
+                if (lastVisibleItem >= totalItemCount-4 && dy > 0 && !isRefresh) {
                    nextPage();
                 }
             }
@@ -100,6 +102,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
     }
 
     private void nextPage() {
+        isRefresh = true;
         request = new SuperRequest(Constant.API_9GAG + count, Feed.FeedRequestData.class, this, this);
         sendRequest(request);
     }
@@ -114,6 +117,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
             mAdapter.refreshData(list);
         }
         swipeLayout.setRefreshing(false);
+        isRefresh = false;
         Slog.d(TAG, "onResponse" + o.toString());
     }
 
@@ -121,6 +125,7 @@ public class HotFragment extends SuperFragment implements SwipeRefreshLayout.OnR
     public void onErrorResponse(VolleyError volleyError) {
         super.onErrorResponse(volleyError);
         swipeLayout.setRefreshing(false);
+        isRefresh = false;
         Slog.d(TAG, "onErrorResponse" + volleyError.toString());
     }
 
