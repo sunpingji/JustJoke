@@ -14,6 +14,7 @@ import java.util.List;
 
 import mouse.justjoke.R;
 import mouse.justjoke.business.bean.Feed;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by mouse on 15/3/13.
@@ -35,12 +36,12 @@ public class UltraAdapter extends UltimateViewAdapter {
         // each data item is just a string in this case
         public TextView textView;
 
-        private ImageView imageview;
+        private GifImageView imageview;
 
         public ViewHolder(View v) {
             super(v);
             textView = (TextView) v.findViewById(R.id.tv_hot);
-            imageview = (ImageView) v.findViewById(R.id.iv_normal);
+            imageview = (GifImageView) v.findViewById(R.id.iv_normal);
         }
     }
 
