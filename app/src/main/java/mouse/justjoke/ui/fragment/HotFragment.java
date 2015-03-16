@@ -30,6 +30,8 @@ public class HotFragment extends SuperFragment {
 
     private static final String TAG = HotFragment.class.getSimpleName();
 
+    private static final String PAGE_START = "0";
+
     private SuperRequest request;
 
     private UltimateRecyclerView recyclerView;
@@ -80,6 +82,8 @@ public class HotFragment extends SuperFragment {
             @Override
             public void onRefresh() {
                 recyclerView.setRefreshing(true);
+                count = "0";
+                nextPage();
             }
         });
 
@@ -113,6 +117,9 @@ public class HotFragment extends SuperFragment {
         super.onResponse(o);
         if (o != null) {
             Feed.FeedRequestData data = (Feed.FeedRequestData) o;
+            if (count.equals(PAGE_START)){
+                list.clear();
+            }
             list.addAll(data.data);
             count = data.getPage();
             mAdapter.refreshData(list);
