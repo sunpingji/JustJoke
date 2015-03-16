@@ -91,19 +91,28 @@ public class HotFragment extends SuperFragment {
         mAdapter.setCustomLoadMoreView(LayoutInflater.from(getActivity())
                 .inflate(R.layout.custom_bottom_progressbar, null));
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-                int totalItemCount = mLayoutManager.getItemCount();
-                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
-                // dy>0 表示向下滑动
-                if (lastVisibleItem >= totalItemCount - 4 && dy > 0 && !isRefresh) {
+            public void loadMore(int lastVisibleItem, int totalItemCount) {
+                if (lastVisibleItem >= totalItemCount - 4 && !isRefresh) {
                     nextPage();
                 }
             }
         });
+
+//        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+//                int totalItemCount = mLayoutManager.getItemCount();
+//                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
+//                // dy>0 表示向下滑动
+//                if (lastVisibleItem >= totalItemCount - 4 && dy > 0 && !isRefresh ) {
+//                    nextPage();
+//                }
+//            }
+//        });
     }
 
     private void nextPage() {
@@ -117,7 +126,7 @@ public class HotFragment extends SuperFragment {
         super.onResponse(o);
         if (o != null) {
             Feed.FeedRequestData data = (Feed.FeedRequestData) o;
-            if (count.equals(PAGE_START)){
+            if (count.equals(PAGE_START)) {
                 list.clear();
             }
             list.addAll(data.data);
@@ -134,6 +143,10 @@ public class HotFragment extends SuperFragment {
         super.onErrorResponse(volleyError);
         isRefresh = false;
         recyclerView.setRefreshing(false);
+        if (null == list || list.size() == 0) {
+            count = PAGE_START;
+            nextPage();
+        }
         Slog.d(TAG, "onErrorResponse" + volleyError.toString());
     }
 

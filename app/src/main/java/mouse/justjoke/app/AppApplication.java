@@ -45,6 +45,7 @@ public class AppApplication extends Application {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.color.material_blue_grey_800)
                 .resetViewBeforeLoading(false)  // default
                 .cacheInMemory(true) // default
                 .cacheOnDisk(true) // default

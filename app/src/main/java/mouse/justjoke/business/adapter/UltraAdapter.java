@@ -26,7 +26,7 @@ public class UltraAdapter extends UltimateViewAdapter {
         mDataset = list;
     }
 
-    public void refreshData(List<Feed> list){
+    public void refreshData(List<Feed> list) {
         mDataset = list;
         notifyDataSetChanged();
     }
