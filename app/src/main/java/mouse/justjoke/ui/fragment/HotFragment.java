@@ -76,7 +76,7 @@ public class HotFragment extends SuperFragment {
 
         // specify an adapter (see also next example)
 
-        mAdapter = new UltraAdapter(list);
+        mAdapter = new UltraAdapter(list,getActivity());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

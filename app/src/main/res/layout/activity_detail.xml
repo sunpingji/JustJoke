@@ -1,0 +1,12 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mouse.justjoke.ui.activity.DetailActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/iv_detail"
+        android:layout_centerInParent="true"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp" />
+
+</RelativeLayout>

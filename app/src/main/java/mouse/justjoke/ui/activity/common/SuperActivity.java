@@ -14,6 +14,10 @@ import mouse.justjoke.business.request.RequestManager;
  */
 public class SuperActivity extends ActionBarActivity implements Response.Listener, Response.ErrorListener {
 
+    protected String getTAG(){
+        return getClass().getSimpleName();
+    }
+
     public void sendRequest(Request request) {
         RequestManager.addRequest(request);
     }

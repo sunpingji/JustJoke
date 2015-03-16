@@ -17,4 +17,7 @@
 
     <string name="sorry_for_no_joke">"对不起，暂时找不到笑话，请刷新一下试试"</string>
     <string name="joke_tips">"提示：按分类看笑话请发送“笑话分类”"</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

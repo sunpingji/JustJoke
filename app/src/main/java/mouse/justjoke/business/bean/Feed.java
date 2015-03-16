@@ -3,6 +3,7 @@ package mouse.justjoke.business.bean;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
 /**
  * Created by storm on 14-3-25.
  */
-public class Feed  {
+public class Feed implements Serializable {
 
     public String id;
     public String caption;
@@ -18,18 +19,18 @@ public class Feed  {
     public Image images;
     public Vote votes;
 
-    public class Image {
+    public class Image implements Serializable {
         public String small;
         public String normal;
         public String large;
     }
 
-    public class Vote {
+    public class Vote implements Serializable {
         public String count;
     }
 
 
-    public static class FeedRequestData {
+    public static class FeedRequestData implements Serializable {
         public ArrayList<Feed> data;
         public Paging paging;
 
@@ -38,7 +39,7 @@ public class Feed  {
         }
     }
 
-    private class Paging {
+    private class Paging implements Serializable {
         public String next;
     }
 }

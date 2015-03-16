@@ -1,5 +1,6 @@
 package mouse.justjoke.business.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mouse.justjoke.R;
 import mouse.justjoke.business.bean.Feed;
+import mouse.justjoke.ui.activity.DetailActivity;
+import mouse.justjoke.ui.activity.common.SuperActivity;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -21,10 +25,13 @@ import pl.droidsonroids.gif.GifImageView;
  */
 public class UltraAdapter extends UltimateViewAdapter {
 
-    private List<Feed> mDataset;
+    private static List<Feed> mDataset;
 
-    public UltraAdapter(List<Feed> list) {
+    private static Context context;
+
+    public UltraAdapter(List<Feed> list, Context context) {
         mDataset = list;
+        this.context = context;
     }
 
     public void refreshData(List<Feed> list) {
@@ -42,6 +49,12 @@ public class UltraAdapter extends UltimateViewAdapter {
             super(v);
             textView = (TextView) v.findViewById(R.id.tv_hot);
             imageview = (GifImageView) v.findViewById(R.id.iv_normal);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailActivity.launch(context, (ArrayList) mDataset, getPosition());
+                }
+            });
         }
     }
 
