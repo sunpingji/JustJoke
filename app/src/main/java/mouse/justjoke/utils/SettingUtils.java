@@ -2,27 +2,25 @@
 
 package mouse.justjoke.utils;
 
+import com.nostra13.universalimageloader.utils.StorageUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import mouse.justjoke.app.AppApplication;
 import mouse.justjoke.utils.log.Slog;
 
 public class SettingUtils {
 
     private static final String TAG = SettingUtils.class.getSimpleName();
 
-    private static SettingUtils instance = new SettingUtils();
+    public static final String FILE_LAST_HOT_FEED = "file_last_hot_feed";
 
-    public static SettingUtils getInstance() {
-        return instance;
-    }
+    public static String DIRECTORY_PATH = StorageUtils.getCacheDirectory(AppApplication.context).getPath();
 
-    private SettingUtils(){
-
-    }
 
     /**
      * Save Serializable object
@@ -30,9 +28,9 @@ public class SettingUtils {
      * @param fileName
      * @param object
      */
-    public void saveObject(String fileName, Object object) {
+    public static void saveObject(String fileName, Object object) {
         try {
-            File file = new File(fileName);
+            File file = new File(DIRECTORY_PATH + fileName);
             if (file.exists()) {
                 file.delete();
             }
@@ -47,9 +45,9 @@ public class SettingUtils {
         }
     }
 
-    public void clearObject(String fileName) {
+    public static void clearObject(String fileName) {
         try {
-            File file = new File(fileName);
+            File file = new File(DIRECTORY_PATH + fileName);
             if (file.exists()) {
                 file.delete();
                 Slog.e(TAG, "delete file success");
@@ -65,10 +63,10 @@ public class SettingUtils {
      * @param fileName
      * @return
      */
-    public Object readObject(String fileName) {
+    public static Object readObject(String fileName) {
         Object object = null;
         try {
-            File f = new File(fileName);
+            File f = new File(DIRECTORY_PATH + fileName);
             FileInputStream byteOut = new FileInputStream(f);
             ObjectInputStream out = new ObjectInputStream(byteOut);
             object = out.readObject();

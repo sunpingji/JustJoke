@@ -21,6 +21,7 @@ import mouse.justjoke.business.adapter.UltraAdapter;
 import mouse.justjoke.business.request.SuperRequest;
 import mouse.justjoke.business.bean.Feed;
 import mouse.justjoke.ui.fragment.common.SuperFragment;
+import mouse.justjoke.utils.SettingUtils;
 import mouse.justjoke.utils.log.Slog;
 
 /**
@@ -60,7 +61,16 @@ public class HotFragment extends SuperFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        initData();
         nextPage();
+    }
+
+    private void initData() {
+        List<Feed> temp = (List<Feed>) SettingUtils.readObject(SettingUtils.FILE_LAST_HOT_FEED);
+        if (temp != null && temp.size() > 0) {
+            list = temp;
+            mAdapter.refreshData(list);
+        }
     }
 
     private void initView() {
@@ -76,7 +86,7 @@ public class HotFragment extends SuperFragment {
 
         // specify an adapter (see also next example)
 
-        mAdapter = new UltraAdapter(list,getActivity());
+        mAdapter = new UltraAdapter(list, getActivity());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -100,19 +110,6 @@ public class HotFragment extends SuperFragment {
             }
         });
 
-//        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-//                int totalItemCount = mLayoutManager.getItemCount();
-//                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载
-//                // dy>0 表示向下滑动
-//                if (lastVisibleItem >= totalItemCount - 4 && dy > 0 && !isRefresh ) {
-//                    nextPage();
-//                }
-//            }
-//        });
     }
 
     private void nextPage() {
@@ -150,5 +147,23 @@ public class HotFragment extends SuperFragment {
         Slog.d(TAG, "onErrorResponse" + volleyError.toString());
     }
 
+    @Override
+    public void onDestroy() {
+        saveNewlyList();
+        super.onDestroy();
+    }
 
+    private void saveNewlyList() {
+        if (list != null && list.size() > 0) {
+            int size = list.size();
+            if (size > 10) {
+                size = 10;
+            }
+            List<Feed> temp = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                temp.add(list.get(i));
+            }
+            SettingUtils.saveObject(SettingUtils.FILE_LAST_HOT_FEED, temp);
+        }
+    }
 }

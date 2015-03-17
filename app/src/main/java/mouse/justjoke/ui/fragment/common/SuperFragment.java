@@ -14,6 +14,10 @@ import mouse.justjoke.ui.activity.common.SuperActivity;
  */
 public class SuperFragment extends Fragment implements Response.Listener, Response.ErrorListener {
 
+    protected String getTAG(){
+        return this.getClass().getSimpleName();
+    }
+
     protected void sendRequest(Request request) {
         ((SuperActivity) getActivity()).sendRequest(request);
     }
