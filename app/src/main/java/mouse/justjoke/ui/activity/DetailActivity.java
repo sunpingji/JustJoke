@@ -2,10 +2,8 @@ package mouse.justjoke.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -15,14 +13,13 @@ import java.util.List;
 import mouse.justjoke.R;
 import mouse.justjoke.business.bean.Feed;
 import mouse.justjoke.ui.activity.common.SuperActivity;
-import pl.droidsonroids.gif.GifImageView;
 
 public class DetailActivity extends SuperActivity {
 
     private List<Feed> feedList;
     private int position;
 
-    private GifImageView gifImageView;
+    private ImageView gifImageView;
 
     private static final String EXTRA_LIST = "extra_list";
 
@@ -56,7 +53,7 @@ public class DetailActivity extends SuperActivity {
     }
 
     private void initViews() {
-        gifImageView = (GifImageView) findViewById(R.id.iv_detail);
+        gifImageView = (ImageView) findViewById(R.id.iv_detail);
 
     }
 
