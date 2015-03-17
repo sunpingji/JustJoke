@@ -29,7 +29,6 @@ import mouse.justjoke.utils.log.Slog;
  */
 public class HotFragment extends SuperFragment {
 
-    private static final String TAG = HotFragment.class.getSimpleName();
 
     private static final String PAGE_START = "0";
 
@@ -132,7 +131,7 @@ public class HotFragment extends SuperFragment {
         }
         isRefresh = false;
         recyclerView.setRefreshing(false);
-        Slog.d(TAG, "onResponse" + o.toString());
+        Slog.d(getTag(), "onResponse" + o.toString());
     }
 
     @Override
@@ -144,7 +143,7 @@ public class HotFragment extends SuperFragment {
             count = PAGE_START;
             nextPage();
         }
-        Slog.d(TAG, "onErrorResponse" + volleyError.toString());
+        Slog.d(getTAG(), "onErrorResponse" + volleyError.toString());
     }
 
     @Override

@@ -9,4 +9,8 @@
 
     <dimen name="main_joke_text_margin_hor">50dp</dimen>
     <dimen name="main_joke_text_size">16sp</dimen>
+
+    <dimen name="card_margin_hor">15dp</dimen>
+    <dimen name="card_height">250dp</dimen>
+    <dimen name="card_text_height">60dp</dimen>
 </resources>
