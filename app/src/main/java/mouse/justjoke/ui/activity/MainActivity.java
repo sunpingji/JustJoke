@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.mikepenz.materialdrawer.Drawer;
 
 import mouse.justjoke.R;
 import mouse.justjoke.ui.activity.common.SuperActivity;
@@ -35,6 +36,14 @@ public class MainActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+//        new Drawer()
+//                .withActivity(this)
+//                .withTranslucentStatusBar(false)
+//                .withActionBarDrawerToggle(false)
+//                .addDrawerItems(
+//                        //pass your items here
+//                )
+//                .build();
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.add(R.id.container, HotFragment.newInstance());

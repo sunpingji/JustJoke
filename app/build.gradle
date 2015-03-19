@@ -48,5 +48,8 @@ dependencies {
     compile 'com.marshalchen.ultimaterecyclerview:library:0.2.2'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
+    compile('com.mikepenz.materialdrawer:library:2.5.4@aar') {
+        transitive = true
+    }
 
 }
