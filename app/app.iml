@@ -98,12 +98,13 @@
     <orderEntry type="library" exported="" name="cardview-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-statistics-v2.6.11.1" level="project" />
+    <orderEntry type="library" exported="" name="pagerslidingtabstrip-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-feedback-v2.6.11.1" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-push-v2.6.11.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.1.37-leancloud" level="project" />
-    <orderEntry type="library" exported="" name="avoscloud-sdk-v2.6.11.1" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
+    <orderEntry type="library" exported="" name="avoscloud-sdk-v2.6.11.1" level="project" />
     <orderEntry type="library" exported="" name="Java-WebSocket-1.2.0-leancloud" level="project" />
   </component>
 </module>

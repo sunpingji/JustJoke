@@ -46,5 +46,7 @@ dependencies {
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.2.2'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
 
 }
