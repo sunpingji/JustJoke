@@ -65,7 +65,6 @@ public class AppApplication extends Application {
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
                 .imageDownloader(new BaseImageDownloader(this)) // default
                 .defaultDisplayImageOptions(options) // default
-                .writeDebugLogs()
                 .build();
         ImageLoader.getInstance().init(config);
     }
